@@ -178,7 +178,19 @@ results/
 
 ## Installation
 
-Clone the repository and install the project dependencies:
+Clone the repository:
+
+```bash
+git clone https://github.com/Xime1122/toolbox-qa-challenge.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd toolbox-qa-challenge
+```
+
+Install the project dependencies:
 
 ```bash
 npm install
