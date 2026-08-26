@@ -11,7 +11,7 @@ assignees: ""
 URL: https://echo-serv.tbxnet.com/v1/qa/test2  
 Stage: qa
 
-![Evidence - test2 returns 500](./test2-500-error.png)
+Evidence: [test2-500-error.png](./test2-500-error.png)
 
 ### Logs
 ```text
