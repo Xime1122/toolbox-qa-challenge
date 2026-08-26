@@ -54,41 +54,64 @@ cypress/e2e/login.cy.js
 
 ## API Automation
 
-Two API endpoints from Automation Exercise were selected for validation.
+Two Echo Server endpoints were selected for validation.
 
-### Products List
+### POST /echo
 
 Endpoint:
 
 ```text
-GET https://automationexercise.com/api/productsList
+POST https://echo-serv.tbxnet.com/v1/echo
+```
+
+#### Positive Scenario
+
+The test sends a text value using the required `text` parameter and validates:
+
+* HTTP status code is `200`
+* Response time is less than 3 seconds
+* Response contains `content-type: application/json`
+* Response body contains the required `text` field
+* `text` is returned as a string
+* Returned text matches the value sent in the request
+
+#### Negative Scenario
+
+The test calls the endpoint without the required `text` parameter and validates:
+
+* API returns `400 Bad Request`
+* Response time is less than 3 seconds
+* Response contains JSON content type
+* Error response contains `code`
+* Error response contains `message`
+* Error fields have the expected data types
+
+### GET /system/version
+
+Endpoint:
+
+```text
+GET https://echo-serv.tbxnet.com/v1/system/version
 ```
 
 Validations:
 
 * HTTP status code is `200`
 * Response time is less than 3 seconds
-* Response contains headers
-* Response body contains the expected `responseCode`
-* `products` exists and is an array
-* Products list is not empty
+* Response contains `content-type: application/json`
+* Response contains the fields:
 
-### Brands List
-
-Endpoint:
-
-```text
-GET https://automationexercise.com/api/brandsList
-```
-
-Validations:
-
-* HTTP status code is `200`
-* Response time is less than 3 seconds
-* Response contains headers
-* Response body contains the expected `responseCode`
-* `brands` exists and is an array
-* Brands list is not empty
+  * `ok`
+  * `date`
+  * `name`
+  * `version`
+  * `env`
+  * `serverName`
+* `ok` is a boolean and its value is `true`
+* `date` is a non-empty string
+* `name` equals `tbx-echo-server`
+* `version` is a non-empty string
+* `env` and `serverName` are returned as strings
 
 Test file:
 
@@ -96,29 +119,26 @@ Test file:
 cypress/e2e/api.cy.js
 ```
 
-## Bug Report
+## API Observations
 
-During the exploratory validation, an issue was identified in the following endpoint:
-
-```text
-GET https://echo-serv.tbxnet.com/v1/qa/test2
-```
-
-The endpoint returns:
+During API validation, a documentation improvement was identified for:
 
 ```text
-500 Internal Server Error
+GET /system/version
 ```
 
-The response contains:
+The Swagger documentation only shows `ok` and `date` in the successful response example, while the actual API response also includes:
 
-```json
-{
-  "code": "SYS-ERR",
-  "message": "An Error",
-  "details": "SYSTEM_ERROR",
-  "status": 500
-}
+* `name`
+* `version`
+* `env`
+* `uptimeDate`
+* `serverName`
+
+The complete observation is documented in:
+
+```text
+results/api-observations.md
 ```
 
 The complete bug report and supporting evidence are available in the `results` folder.
